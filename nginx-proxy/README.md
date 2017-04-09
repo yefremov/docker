@@ -18,7 +18,8 @@ Make a `curl` request to test that proxy is serving node application.
 
 ```bash
 $ curl http://localhost:8000
-$ Hello, World!
+
+Hello, World!
 ```
 
 Check access logs on nginx container, but first, get its name by process.
