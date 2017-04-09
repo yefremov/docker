@@ -8,7 +8,7 @@ Build both node and nginx images.
 $ docker-compose build
 ```
 
-Run containeners in detached mode.
+Run containers in detached mode.
 
 ```bash
 $ docker-compose up -d
