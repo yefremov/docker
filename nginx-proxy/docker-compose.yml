@@ -1,4 +1,4 @@
-version: "2"
+version: '2'
 services:
   node:
     build: ./node
@@ -7,7 +7,4 @@ services:
     ports:
       - 8000:80
     links:
-      - node:app
-    volumes:
-      - /usr/share/nginx/html/
-      - /etc/nginx/conf.d/
+      - node
