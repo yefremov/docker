@@ -7,12 +7,12 @@ import (
 
 func main() {
   client := redis.NewClient(&redis.Options{
-		Addr:     "redis:6379",
-		Password: "", // no password set
-		DB:       0,  // use default DB
-	})
+    Addr:     "redis:6379",
+    Password: "", // no password set
+    DB:       0,  // use default DB
+  })
 
-	pong, err := client.Ping().Result()
-	fmt.Println(pong, err)
-	// Output: PONG <nil>
+  pong, err := client.Ping().Result()
+  fmt.Println(pong, err)
+  // Output: PONG <nil>
 }
