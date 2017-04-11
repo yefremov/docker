@@ -1,4 +1,4 @@
-# nginx-node
+# nginx-proxy
 
 ## Installation
 
