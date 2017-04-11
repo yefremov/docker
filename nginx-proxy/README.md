@@ -1,8 +1,10 @@
 # nginx-proxy
 
-## Installation
+Run Nginx proxy in front of Node.js application.
 
-Build both node and nginx images.
+## Usage
+
+Build both Nginx and Node.js images.
 
 ```bash
 $ docker-compose build
@@ -14,7 +16,7 @@ Run containers in detached mode.
 $ docker-compose up -d
 ```
 
-Make a `curl` request to test that proxy is serving node application.
+Make a `curl` request to test that proxy is serving Node.js application.
 
 ```bash
 $ curl http://localhost:8000
@@ -22,7 +24,7 @@ $ curl http://localhost:8000
 Hello, World!
 ```
 
-Check access logs on nginx container, but first, get its name by process.
+Check access logs on Nginx container, but first, get its name by process.
 
 ```bash
 $ docker-compose ps
@@ -32,7 +34,7 @@ nginxproxy_nginx_1   nginx -g daemon off;   Up     443/tcp, 0.0.0.0:8000->80/tcp
 nginxproxy_node_1    node index             Up     3000/tcp                      
 ```
 
-Now you have name of nginx proxy, use it to read logs.
+Now you have name of Nginx proxy, use it to read logs.
 
 ```bash
 $ docker logs nginxproxy_nginx_1
