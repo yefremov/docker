@@ -1,0 +1,11 @@
+version: "2"
+services:
+  app:
+    build: .
+    volumes:
+      - .:/go/src/app
+    command: app
+    links:
+      - redis
+  redis:
+    image: redis:alpine
