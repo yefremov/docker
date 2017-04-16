@@ -1,4 +1,4 @@
-# go-app
+# go-redis
 
 Develop and run Go application inside a container.
 
