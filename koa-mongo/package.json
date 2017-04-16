@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "koa": "^2.2.0",
+    "koa-mongo": "^0.7.0"
+  }
+}
