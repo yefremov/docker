@@ -1,0 +1,36 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>koa-mongo</title>
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="/style.css">
+  </head>
+  <body>
+    <script>
+      var _gq = window._gq = window._gq || {
+        id: 0,
+        data: [],
+        push: function(event) {
+          _gq.data.push([event[0], event[1], _gq.id++, new Date()]);
+        }
+      };
+
+      _gq.push(['_init', 'anonymouse']);
+      _gq.push(['_perf']);
+
+      (function () {
+        var element = document.createElement('script');
+        element.type = 'text/javascript';
+        element.async = true;
+        element.src = ('https:' == document.location.protocol
+          ? 'https://'
+          : 'http://'
+        ) + 'localhost:3000/analytics.js';
+        var script = document.getElementsByTagName('script')[0];
+        script.parentNode.insertBefore(element, script);
+      })();
+    </script>
+    <script src="/main.js"></script>
+  </body>
+</html>

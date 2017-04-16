@@ -1,6 +1,8 @@
 {
   "dependencies": {
     "koa": "^2.2.0",
-    "koa-mongo": "^0.7.0"
+    "koa-mongo": "^0.7.0",
+    "koa-static": "^3.0.0",
+    "performance-now": "^2.1.0"
   }
 }

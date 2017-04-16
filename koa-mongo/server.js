@@ -3,10 +3,25 @@
  * Module dependencies.
  */
 
+const path = require('path');
+const now = require('performance-now');
+const serve = require('koa-static');
 const mongo = require('koa-mongo');
 const Koa = require('koa');
 
 const app = new Koa();
+
+app.use(async (ctx, next) => {
+  const startTime = now();
+  const startUsage = process.cpuUsage();
+  await next();
+  const cpuUsage = process.cpuUsage(startUsage);
+  ctx.set('X-Response-Time', `${now() - startTime}`);
+  ctx.set('Server-Timing', `
+	  db=0.1; "Total MongoDB",
+	  cpu=${cpuUsage.user + cpuUsage.system}; "Total CPU"
+	`.replace(/\n|\s{2}/g, ''));
+})
 
 app.use(mongo({
    host: process.env.MONGO_HOST,
@@ -15,33 +30,22 @@ app.use(mongo({
 }));
 
 app.use(async (ctx, next) => {
-  const start = new Date();
+  const startTime = now();
   await next();
-  await ctx.mongo.db('test').collection('access').insert({
-    request: {
-      headers: ctx.request.header,
-      method: ctx.request.method,
-      length: ctx.request.length,
-      url: ctx.request.url,
-      originalUrl: ctx.request.originalUrl,
-      origin: ctx.request.origin,
-      path: ctx.request.path,
-      type: ctx.request.type,
-      charset: ctx.request.charset,
-      query: ctx.request.query,
-      ip: ctx.request.ip,
-    },
-    response: {
-      headers: ctx.response.header,
-      status: ctx.response.status,
-      length: ctx.response.length,
-      type: ctx.response.type,
-    },
-    time: new Date() - start,
+  ctx.mongo.db(process.env.MONGO_DB).collection('access').insertOne({
+    method: ctx.method,
+    url: ctx.url,
+    origin: ctx.origin,
+    query: ctx.query,
+    ip: ctx.ip,
+    status: ctx.status,
+
+    time: now() - startTime,
   });
 
-  ctx.body = await ctx.mongo.db('test').collection('access').find().toArray();
 });
+
+app.use(serve(path.resolve(__dirname, 'public')));
 
 app.listen(process.env.PORT);
 
