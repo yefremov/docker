@@ -3,14 +3,18 @@ services:
   grafana:
     image: grafana/grafana
     volumes:
-      - ./var/lib/grafana:/var/lib/grafana
-      - ./etc/grafana:/etc/grafana
+      - ./grafana.ini:/etc/grafana/grafana.ini
+#     - ./share/grafana:/usr/share/grafana
+      - data:/var/lib/grafana
     ports:
     - "3000:3000"
   prometheus:
     image: prom/prometheus
     volumes:
-      - ./etc/prometheus:/etc/prometheus
-      - ./var/lib/prometheus:/var/lib/prometheus
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+#     - ./share/prometheus:/usr/share/prometheus
+      - data:/prometheus
     ports:
     - "9090:9090"
+volumes:
+  data:
