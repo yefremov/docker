@@ -1,0 +1,46 @@
+version: "2"
+services:
+  alpha:
+    image: zookeeper:3.4
+    restart: always
+    ports:
+      - "2181:2181"
+      - "2888"
+      - "3888"
+    volumes:
+      # - ./conf/alpha.cfg:/conf/zoo.cfg
+      - data-volume:/datalog
+      - data-volume:/data
+    environment:
+      ZOO_MY_ID: 1
+      ZOO_SERVERS: zk.1=alpha:2888:3888 zk.2=beta:2888:3888 zk.3=omega:2888:3888
+  beta:
+    image: zookeeper:3.4
+    restart: always
+    ports:
+      - "2182:2181"
+      - "2888"
+      - "3888"
+    volumes:
+      # - ./conf/beta.cfg:/conf/zoo.cfg
+      - data-volume:/datalog
+      - data-volume:/data
+    environment:
+      ZOO_MY_ID: 2
+      ZOO_SERVERS: zk.1=alpha:2888:3888 zk.2=beta:2888:3888 zk.3=omega:2888:3888
+  omega:
+    image: zookeeper:3.4
+    restart: always
+    ports:
+      - "2183:2181"
+      - "2888"
+      - "3888"
+    volumes:
+      # - ./conf/omega.cfg:/conf/zoo.cfg
+      - data-volume:/datalog
+      - data-volume:/data
+    environment:
+      ZOO_MY_ID: 3
+      ZOO_SERVERS: zk.1=alpha:2888:3888 zk.2=beta:2888:3888 zk.3=omega:2888:3888
+volumes:
+  data-volume:
