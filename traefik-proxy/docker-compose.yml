@@ -1,0 +1,59 @@
+version: "2"
+
+services:
+  traefik:
+    image: traefik
+    command: --web --docker --docker.domain=docker.localhost
+    restart: always
+    networks:
+      - webgateway
+    ports:
+      - "80:80"
+      - "8080:8080"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /dev/null:/traefik.toml
+
+  portainer:
+    image: portainer/portainer
+    command: -H unix:///var/run/docker.sock
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./portainer/data:/data
+    labels:
+      - "traefik.port=9000"
+      - "traefik.backend=portainer"
+      - "traefik.frontend.rule=Host:portainer.docker.localhost"
+    networks:
+      - webgateway
+
+  ambassador:
+    image: svendowideit/ambassador
+    links:
+      - traefik
+    labels:
+      - "traefik.port=8080"
+      - "traefik.backend=ambassador"
+      - "traefik.frontend.rule=Host:ambassador.docker.localhost"
+    environment:
+      - TRAEFIK_PORT_8080_TCP=tcp://traefik:8080
+    networks:
+      - webgateway
+
+  zookeeper:
+    image: zookeeper
+    restart: always
+    ports:
+      - "2181:2181"
+      - "2888:2888"
+      - "3888:3888"
+    labels:
+      - "traefik.port=9090"
+      - "traefik.backend=zookeeper"
+      - "traefik.frontend.rule=Host:zookeeper.docker.localhost"
+    networks:
+      - webgateway
+
+networks:
+  webgateway:
+    driver: bridge
